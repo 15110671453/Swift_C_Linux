@@ -1,0 +1,88 @@
+Swift_C_Linux 使用文档
+
+第一步
+
+Last login: Wed May 23 13:44:07 on ttys000
+macserver:~ admindyn$ cd /Users/admindyn/Desktop/dailyspace/C_SW_REPO 
+macserver:C_SW_REPO admindyn$ swift build
+Compile C_SW_REPO CSwift.c
+Compile C_SW_REPO CFramWork.c
+Linking ./.build/x86_64-apple-macosx10.10/debug/libC_SW_REPO.dylib
+macserver:C_SW_REPO admindyn$ cd /Users/admindyn/Desktop/dailyspace/Swift_C_Linux 
+macserver:Swift_C_Linux admindyn$ swift build
+Fetching /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO
+error: failed to clone; fatal: repository '/Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO' does not exist
+macserver:Swift_C_Linux admindyn$ cd /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO
+macserver:C_SW_REPO admindyn$ git init
+Initialized empty Git repository in /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO/.git/
+macserver:C_SW_REPO admindyn$ git add .
+macserver:C_SW_REPO admindyn$ git commit -m "wwwww"
+[master (root-commit) 18ceee9] wwwww
+ 8 files changed, 129 insertions(+)
+ create mode 100644 C_SW_REPO.h
+ create mode 100644 Package.swift
+ create mode 100644 README.md
+ create mode 100644 Sources/CFramWork.c
+ create mode 100644 Sources/CFramWork.h
+ create mode 100644 Sources/CSwift.c
+ create mode 100644 Sources/CSwift.h
+ create mode 100644 module.modulemap
+macserver:C_SW_REPO admindyn$ git tag 6.6.0
+macserver:C_SW_REPO admindyn$ cd /Users/admindyn/Desktop/dailyspace/Swift_C_Linux 
+macserver:Swift_C_Linux admindyn$ swift build
+Fetching /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO
+Cloning /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO
+Resolving /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/Sources/Swift_C_Linux/include/C_SW_REPO at 6.6.0
+Compile Swift Module 'Swift_C_Linux' (1 sources)
+Linking ./.build/x86_64-apple-macosx10.10/debug/Swift_C_Linux
+ld: library not found for -llibC_SW_REPO for architecture x86_64
+<unknown>:0: error: link command failed with exit code 1 (use -v to see invocation)
+error: terminated(1): /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-build-tool -f /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/.build/debug.yaml main
+
+
+第二步
+
+Last login: Wed May 23 13:57:57 on ttys000
+macserver:~ admindyn$ cd /Users/admindyn/Desktop/dailyspace/C_SW_REPO
+macserver:C_SW_REPO admindyn$ ls -la
+total 40
+drwxr-xr-x   8 admindyn  staff   272  5 23 13:58 .
+drwxr-xr-x@ 75 admindyn  staff  2550  5 23 13:57 ..
+-rw-r--r--@  1 admindyn  staff  8196  5 23 13:54 .DS_Store
+drwxr-x---   8 admindyn  staff   272  5 23 13:58 .build
+-rw-r--r--   1 admindyn  staff  1042  5 23 11:11 Package.swift
+-rw-r--r--   1 admindyn  staff    44  5 23 10:22 README.md
+drwxr-xr-x   4 admindyn  staff   136  5 23 13:46 Sources
+drwxr-xr-x   4 admindyn  staff   136  5 23 10:22 Tests
+macserver:C_SW_REPO admindyn$ cd .build/x86_64-apple-macosx10.10/debug/
+macserver:debug admindyn$ ls -la
+total 88
+drwxr-xr-x  6 admindyn  staff    204  5 23 13:58 .
+drwxr-xr-x  3 admindyn  staff    102  5 23 13:58 ..
+drwxr-xr-x  6 admindyn  staff    204  5 23 13:58 C_SW_REPO.build
+drwxr-x---  3 admindyn  staff    102  5 23 13:58 ModuleCache
+-rwxr-xr-x  1 admindyn  staff  41980  5 23 13:58 libC_SW_REPO.dylib
+drwxr-xr-x  3 admindyn  staff    102  5 23 13:58 libC_SW_REPO.dylib.dSYM
+macserver:debug admindyn$ cp libC_SW_REPO.dylib /Users/admindyn/Desktop/dailyspace/Swift_C_Linux
+macserver:debug admindyn$ cd /Users/admindyn/Desktop/dailyspace/Swift_C_Linux
+macserver:Swift_C_Linux admindyn$ cp libC_SW_REPO.dylib ./.build/x86_64-apple-macosx10.10/debug/
+macserver:Swift_C_Linux admindyn$ swift build
+Linking ./.build/x86_64-apple-macosx10.10/debug/Swift_C_Linux
+ld: library not found for -llibC_SW_REPO for architecture x86_64
+<unknown>:0: error: link command failed with exit code 1 (use -v to see invocation)
+error: terminated(1): /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-build-tool -f /Users/admindyn/Desktop/dailyspace/Swift_C_Linux/.build/debug.yaml main
+macserver:Swift_C_Linux admindyn$ swift build
+Linking ./.build/x86_64-apple-macosx10.10/debug/Swift_C_Linux
+ld: library not found for -llibC_SW_REPO for architecture x86_64
+<unknown>:0: error: link command failed with exit code 1 (use -v to see invocation)
+
+
+
+第三步 发现 依旧提示没动态库
+
+原来是我们在 module.modulemap 下写错了 动态库名
+
+
+修改后 删除之前git下来的包 重新clone 下来 重新 第一步 第二步 成功
+
+

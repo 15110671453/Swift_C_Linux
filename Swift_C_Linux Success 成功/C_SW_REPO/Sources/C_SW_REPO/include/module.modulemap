@@ -1,0 +1,5 @@
+module C_SW_REPO [system] {
+  header "C_SW_REPO.h"
+  link "C_SW_REPO"
+  export *
+}
